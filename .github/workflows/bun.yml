@@ -1,0 +1,32 @@
+name: Deploy Portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Stiahne kód
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Nainštaluje Bun
+      - uses: oven-sh/setup-bun@v2
+
+      # 3️⃣ Nainštaluje dependencies
+      - run: bun install
+        # 👉 inštaluje všetky balíky
+
+      # 4️⃣ Spraví build projektu
+      - run: bun run build
+        # 👉 vytvorí /dist alebo /build folder
+
+      # 5️⃣ Deploy na GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          # 👉 sem ide hotový build (statický web)

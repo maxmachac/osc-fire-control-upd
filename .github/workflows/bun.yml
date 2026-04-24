@@ -1,4 +1,4 @@
-name: Deploy Portfolio (Bun + GitHub Pages)
+name: Deploy Portfolio (Bun)
 
 on:
   push:
@@ -9,21 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ stiahni repo
       - uses: actions/checkout@v4
 
-      # 2️⃣ Install Bun (NIE Node)
+      # 2️⃣ nainštaluj Bun (ŽIADNY Node)
       - uses: oven-sh/setup-bun@v2
 
-      # 3️⃣ Install dependencies cez Bun
+      # 3️⃣ install dependencies
       - run: bun install
-        # 👉 nahrádza npm install
 
-      # 4️⃣ Build projektu
+      # 4️⃣ build projektu
       - run: bun run build
-        # 👉 vytvorí dist/
 
-      # 5️⃣ Deploy na GitHub Pages
+      # 5️⃣ deploy na GitHub Pages
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:

@@ -1,9 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Bun)
 
 on:
- push:
-   branches: [main]
- workflow_dispatch:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,30 +18,35 @@ jobs:
   deploy:
     environment: github-pages
     runs-on: ubuntu-latest
+
     steps:
+      # 1️⃣ Checkout repo
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      # 2️⃣ Install Bun (NIE Node)
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
+      # 3️⃣ Install dependencies cez Bun
       - name: Install dependencies
-        run: npm ci
+        run: bun install
 
+      # 4️⃣ Build cez Bun
       - name: Build
-        run: npm run build
+        run: bun run build
 
+      # 5️⃣ Setup GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      # 6️⃣ Upload build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist'
 
+      # 7️⃣ Deploy
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -1,4 +1,4 @@
-name: Deploy Portfolio to GitHub Pages
+name: Deploy Portfolio (Bun + GitHub Pages)
 
 on:
   push:
@@ -9,19 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Stiahne kód
+      # 1️⃣ Checkout repo
       - uses: actions/checkout@v4
 
-      # 2️⃣ Nainštaluje Bun
+      # 2️⃣ Install Bun (NIE Node)
       - uses: oven-sh/setup-bun@v2
 
-      # 3️⃣ Nainštaluje dependencies
+      # 3️⃣ Install dependencies cez Bun
       - run: bun install
-        # 👉 inštaluje všetky balíky
+        # 👉 nahrádza npm install
 
-      # 4️⃣ Spraví build projektu
+      # 4️⃣ Build projektu
       - run: bun run build
-        # 👉 vytvorí /dist alebo /build folder
+        # 👉 vytvorí dist/
 
       # 5️⃣ Deploy na GitHub Pages
       - name: Deploy
@@ -29,4 +29,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          # 👉 sem ide hotový build (statický web)

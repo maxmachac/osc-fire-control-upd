@@ -1,18 +1,1 @@
-name: Bun Workflow
-on: [push]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      # Inštalácia Bun
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest # alebo konkrétna verzia, napr. 1.1.0
-
-      # Použitie Bun príkazov
-      - run: bun install
-      - run: bun test
-      - run: bun run build

@@ -1,9 +1,9 @@
 name: Deploy to GitHub Pages
 
 on:
- push:
-   branches: [main]
- workflow_dispatch:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,17 +22,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-          cache: 'npm'
+          bun-version: latest
+          # Toto automaticky cachuje balíky z bun.lockb
+          cache: true 
 
       - name: Install dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: bun run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,6 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Uisti sa, že tvoj build generuje súbory do 'dist' (toto je štandard pre Vite)
           path: 'dist'
 
       - name: Deploy to GitHub Pages
